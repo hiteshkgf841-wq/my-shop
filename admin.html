@@ -1,3 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+
+<style>
+body{
+  font-family:Arial;
+  background:#f2f2f2;
+  margin:0;
+}
+.header{
+  background:#1e3c72;
+  color:white;
+  padding:15px;
+  text-align:center;
+  font-size:20px;
+}
+.box{
+  background:white;
+  margin:15px;
+  padding:15px;
+  border-radius:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,.2);
+}
+input, button{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+}
+button{
+  background:green;
+  color:white;
+  border:none;
+  border-radius:5px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th, td{
+  border:1px solid #ccc;
+  padding:8px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">ADMIN PANEL</div>
+
+<div class="box">
+  <h3>Add Product</h3>
+  <input id="name" placeholder="Product Name">
+  <input id="price" type="number" placeholder="Price">
+  <button onclick="addProduct()">Add Product</button>
+</div>
+
+<div class="box">
+  <h3>Product List</h3>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Action</th>
+    </tr>
+    <tbody id="products"></tbody>
+  </table>
+</div>
+
 <script>
 let products = JSON.parse(localStorage.getItem("products")) || [];
 
@@ -6,30 +78,25 @@ function addProduct(){
   let price = document.getElementById("price").value;
 
   if(name && price){
-    products.push({
-      name: name,
-      price: price
-    });
-
+    products.push({name, price});
     localStorage.setItem("products", JSON.stringify(products));
     showProducts();
-
-    document.getElementById("name").value = "";
-    document.getElementById("price").value = "";
-    alert("Product added successfully!");
+    document.getElementById("name").value="";
+    document.getElementById("price").value="";
+  }else{
+    alert("Please enter product name and price");
   }
 }
 
-function deleteProduct(index){
-  products.splice(index,1);
+function deleteProduct(i){
+  products.splice(i,1);
   localStorage.setItem("products", JSON.stringify(products));
   showProducts();
 }
 
 function showProducts(){
   let table = document.getElementById("products");
-  table.innerHTML = "";
-
+  table.innerHTML="";
   products.forEach((p,i)=>{
     table.innerHTML += `
       <tr>
@@ -42,4 +109,7 @@ function showProducts(){
 }
 
 showProducts();
-    </script>
+</script>
+
+</body>
+</html>
